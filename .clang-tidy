@@ -1,0 +1,4 @@
+---
+Checks: 'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,google-*,misc-*,modernize-*,performance-*,readability-*',-modernize-use-trailing-return-type
+WarningsAsErrors: 'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,google-*,misc-*,modernize-*,performance-*,readability-*'
+...
