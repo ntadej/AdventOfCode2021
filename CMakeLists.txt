@@ -14,6 +14,7 @@ include(CTest)
 
 # Add days
 setup_day(01)
+setup_day(02)
 
 # Enable tests
 enable_testing()
