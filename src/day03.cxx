@@ -1,4 +1,3 @@
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <set>
@@ -33,8 +32,8 @@ int part_one(const std::vector<std::string> &inputs)
 int part_two_sensor(const std::vector<std::string> &inputs,
                     char type)
 {
-  char antiType = type == '1' ? '0' : '1';
-  size_t size{inputs.front().size()};
+  const char antiType = type == '1' ? '0' : '1';
+  const size_t size{inputs.front().size()};
   std::set<size_t> selected{};
   for (size_t j{}; j < inputs.size(); j++) {
     selected.insert(j);
@@ -82,17 +81,14 @@ int part_two(const std::vector<std::string> &inputs)
 
 int main(int argc, char **argv)
 {
-  std::filesystem::path file = std::string(argv[0]) + ".txt";
-  file = file.filename();
-  if (argc >= 2) {
-    file = argv[1];
-  }
+  const std::filesystem::path file = fileName(argc, argv);
 
   std::ifstream input_file(file);
   if (!input_file.is_open()) {
     std::cerr << "Input file " << file << " can not be opened!" << std::endl;
     return 10;
   }
+
   std::vector<std::string> inputs;
   do {
     std::string string{};
@@ -100,13 +96,13 @@ int main(int argc, char **argv)
     inputs.emplace_back(string);
   } while (!input_file.eof());
 
-  int one = testPart<std::string>(part_one, inputs, 693486, 1);
-  if (one) {
+  const int one = testPart<std::string>(part_one, inputs, 693486, 1);
+  if (one != 0) {
     return one;
   }
 
-  int two = testPart<std::string>(part_two, inputs, 693486, 2);
-  if (two) {
+  const int two = testPart<std::string>(part_two, inputs, 3379326, 2);
+  if (two != 0) {
     return two;
   }
 

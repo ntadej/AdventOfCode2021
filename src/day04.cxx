@@ -1,5 +1,4 @@
 #include <array>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <set>
@@ -11,9 +10,14 @@ class Board
 {
 public:
   void fill(std::ifstream &stream);
+  [[nodiscard]] int &value(size_t i,
+                           size_t j);
+  [[nodiscard]] const int &value(size_t i,
+                                 size_t j) const;
   void hit(int number);
-  bool check() const;
-  int evaluate() const;
+  [[nodiscard]] bool check() const;
+  [[nodiscard]] int evaluate() const;
+  [[nodiscard]] constexpr size_t size() const { return 5; }
 
 private:
   std::array<std::array<int, 5>, 5> _values;
@@ -21,19 +25,31 @@ private:
 
 void Board::fill(std::ifstream &stream)
 {
-  for (size_t i{}; i < _values.size(); i++) {
-    for (size_t j{}; j < _values[i].size(); j++) {
-      stream >> _values[i][j];
+  for (size_t i{}; i < size(); i++) {
+    for (size_t j{}; j < size(); j++) {
+      stream >> _values.at(i).at(j);
     }
   }
 }
 
+int &Board::value(size_t i,
+                  size_t j)
+{
+  return _values.at(i).at(j);
+}
+
+const int &Board::value(size_t i,
+                        size_t j) const
+{
+  return _values.at(i).at(j);
+}
+
 void Board::hit(int number)
 {
-  for (size_t i{}; i < _values.size(); i++) {
-    for (size_t j{}; j < _values[i].size(); j++) {
-      if (_values[i][j] == number) {
-        _values[i][j] = -1;
+  for (size_t i{}; i < size(); i++) {
+    for (size_t j{}; j < size(); j++) {
+      if (value(i, j) == number) {
+        value(i, j) = -1;
       }
     }
   }
@@ -41,20 +57,20 @@ void Board::hit(int number)
 
 bool Board::check() const
 {
-  for (size_t i{}; i < _values.size(); i++) {
+  for (size_t i{}; i < size(); i++) {
     bool valid{true};
-    for (size_t j{}; j < _values[i].size(); j++) {
-      valid = valid && _values[i][j] == -1;
+    for (size_t j{}; j < size(); j++) {
+      valid = valid && value(i, j) == -1;
     }
     if (valid) {
       return true;
     }
   }
 
-  for (size_t j{}; j < _values[0].size(); j++) {
+  for (size_t j{}; j < size(); j++) {
     bool valid{true};
-    for (size_t i{}; i < _values.size(); i++) {
-      valid = valid && _values[i][j] == -1;
+    for (size_t i{}; i < size(); i++) {
+      valid = valid && value(i, j) == -1;
     }
     if (valid) {
       return true;
@@ -67,10 +83,10 @@ bool Board::check() const
 int Board::evaluate() const
 {
   int sum{};
-  for (size_t i{}; i < _values.size(); i++) {
-    for (size_t j{}; j < _values[i].size(); j++) {
-      if (_values[i][j] != -1) {
-        sum += _values[i][j];
+  for (size_t i{}; i < size(); i++) {
+    for (size_t j{}; j < size(); j++) {
+      if (value(i, j) != -1) {
+        sum += value(i, j);
       }
     }
   }
@@ -128,11 +144,7 @@ int part_two(const std::vector<int> &parameters,
 
 int main(int argc, char **argv)
 {
-  std::filesystem::path file = std::string(argv[0]) + ".txt";
-  file = file.filename();
-  if (argc >= 2) {
-    file = argv[1];
-  }
+  const std::filesystem::path file = fileName(argc, argv);
 
   std::ifstream input_file(file);
   if (!input_file.is_open()) {
@@ -142,21 +154,23 @@ int main(int argc, char **argv)
 
   std::string paramString{};
   input_file >> paramString;
-  std::vector<int> parameters = stringSplit(paramString, ",");
+  const std::vector<int> parameters = stringSplit(paramString, ",");
   std::vector<Board> inputs;
-  do {
-    Board board;
+  while (!input_file.eof()) {
+    Board board{};
     board.fill(input_file);
-    inputs.emplace_back(board);
-  } while (!input_file.eof());
+    if (board.evaluate() != 0) {
+      inputs.emplace_back(board);
+    }
+  }
 
-  int one = testPart<int, Board>(part_one, parameters, inputs, 51776, 1);
-  if (one) {
+  const int one = testPart<int, Board>(part_one, parameters, inputs, 51776, 1);
+  if (one != 0) {
     return one;
   }
 
-  int two = testPart<int, Board>(part_two, parameters, inputs, 693486, 2);
-  if (two) {
+  const int two = testPart<int, Board>(part_two, parameters, inputs, 16830, 2);
+  if (two != 0) {
     return two;
   }
 

@@ -1,8 +1,21 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <filesystem>
 #include <iostream>
+#include <span>
 #include <vector>
+
+inline std::filesystem::path fileName(int argc, char **argv)
+{
+  auto args = std::span(argv, size_t(argc));
+  std::filesystem::path file = std::string(args[0]) + ".txt";
+  file = file.filename();
+  if (args.size() >= 2) {
+    file = args[1];
+  }
+  return file;
+}
 
 template <typename T>
 int testPart(std::function<int(const std::vector<T> &)> function,
@@ -10,9 +23,11 @@ int testPart(std::function<int(const std::vector<T> &)> function,
              int target,
              int part)
 {
-  int result = function(inputs);
-  bool ok = target == result;
-  const char *op = ok == true ? " == " : " != ";
+  using namespace std::string_literals;
+
+  const int result = function(inputs);
+  const bool ok = target == result;
+  const std::string op = ok ? " == "s : " != "s;
   std::cout << "Part " << part << ": " << target << op << result << std::endl;
   if (!ok) {
     return part;
@@ -27,9 +42,11 @@ int testPart(std::function<int(const std::vector<T> &, const std::vector<U> &)> 
              int target,
              int part)
 {
-  int result = function(parameters, inputs);
-  bool ok = target == result;
-  const char *op = ok == true ? " == " : " != ";
+  using namespace std::string_literals;
+
+  const int result = function(parameters, inputs);
+  const bool ok = target == result;
+  const std::string op = ok ? " == "s : " != "s;
   std::cout << "Part " << part << ": " << target << op << result << std::endl;
   if (!ok) {
     return part;

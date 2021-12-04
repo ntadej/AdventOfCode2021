@@ -1,4 +1,4 @@
 ---
-Checks: 'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,google-*,misc-*,modernize-*,performance-*,readability-*',-modernize-use-trailing-return-type
+Checks: 'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,google-*,misc-*,modernize-*,performance-*,readability-*,-bugprone-exception-escape,-cppcoreguidelines-avoid-magic-numbers,-modernize-use-trailing-return-type,-readability-convert-member-functions-to-static,-readability-magic-numbers'
 WarningsAsErrors: 'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,google-*,misc-*,modernize-*,performance-*,readability-*'
 ...
