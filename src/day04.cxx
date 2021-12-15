@@ -1,7 +1,4 @@
 #include <array>
-#include <fstream>
-#include <iostream>
-#include <set>
 #include <vector>
 
 #include "common.h"
@@ -93,20 +90,6 @@ int Board::evaluate() const
   return sum;
 }
 
-std::vector<int> stringSplit(const std::string &string,
-                             const std::string &delimiter)
-{
-  std::string::size_type b = 0;
-  std::vector<int> result;
-
-  while ((b = string.find_first_not_of(delimiter, b)) != std::string::npos) {
-    std::string::size_type e = string.find_first_of(delimiter, b);
-    result.push_back(std::stoi(string.substr(b, e - b)));
-    b = e;
-  }
-  return result;
-}
-
 int part_one(const std::vector<int> &parameters,
              const std::vector<Board> &inputs)
 {
@@ -154,7 +137,7 @@ int main(int argc, char **argv)
 
   std::string paramString{};
   input_file >> paramString;
-  const std::vector<int> parameters = stringSplit(paramString, ",");
+  const std::vector<int> parameters = splitNumber(paramString, ",");
   std::vector<Board> inputs;
   while (!input_file.eof()) {
     Board board{};
@@ -164,12 +147,12 @@ int main(int argc, char **argv)
     }
   }
 
-  const int one = testPart<int, Board>(part_one, parameters, inputs, 51776, 1);
+  const int one = testPart<std::vector<int>, std::vector<Board>, int>(part_one, parameters, inputs, 51776, 1);
   if (one != 0) {
     return one;
   }
 
-  const int two = testPart<int, Board>(part_two, parameters, inputs, 16830, 2);
+  const int two = testPart<std::vector<int>, std::vector<Board>, int>(part_two, parameters, inputs, 16830, 2);
   if (two != 0) {
     return two;
   }

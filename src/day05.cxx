@@ -1,7 +1,3 @@
-#include <array>
-#include <fstream>
-#include <iostream>
-#include <set>
 #include <vector>
 
 #include "common.h"
@@ -24,7 +20,7 @@ private:
 };
 
 Line::Line(int x1,
-           int y1, // NOLINT(bugprone-easily-swappable-parameters)
+           int y1,
            int x2,
            int y2)
 {
@@ -65,20 +61,6 @@ std::vector<std::pair<int, int>> Line::diagonalSection() const
 int Line::maxCoordinate() const
 {
   return std::max(std::max(_start.first, _start.second), std::max(_end.first, _end.second));
-}
-
-std::vector<int> stringSplit(const std::string &string,
-                             const std::string &delimiter)
-{
-  std::string::size_type b = 0;
-  std::vector<int> result;
-
-  while ((b = string.find_first_not_of(delimiter, b)) != std::string::npos) {
-    std::string::size_type e = string.find_first_of(delimiter, b);
-    result.push_back(std::stoi(string.substr(b, e - b)));
-    b = e;
-  }
-  return result;
 }
 
 int part_one(const std::vector<int> &parameters,
@@ -145,11 +127,11 @@ int main(int argc, char **argv)
     if (buffer.empty()) {
       break;
     }
-    bufferSplit = stringSplit(buffer, ",");
+    bufferSplit = splitNumber(buffer, ",");
     int x1 = bufferSplit[0];
     int y1 = bufferSplit[1];
     input_file >> buffer >> buffer;
-    bufferSplit = stringSplit(buffer, ",");
+    bufferSplit = splitNumber(buffer, ",");
     int x2 = bufferSplit[0];
     int y2 = bufferSplit[1];
 
@@ -158,12 +140,12 @@ int main(int argc, char **argv)
   }
   std::vector<int> parameters = {max};
 
-  const int one = testPart<int, Line>(part_one, parameters, inputs, 5084, 1);
+  const int one = testPart<std::vector<int>, std::vector<Line>, int>(part_one, parameters, inputs, 5084, 1);
   if (one != 0) {
     return one;
   }
 
-  const int two = testPart<int, Line>(part_two, parameters, inputs, 17882, 2);
+  const int two = testPart<std::vector<int>, std::vector<Line>, int>(part_two, parameters, inputs, 17882, 2);
   if (two != 0) {
     return two;
   }

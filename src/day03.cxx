@@ -1,6 +1,4 @@
-#include <fstream>
-#include <iostream>
-#include <set>
+#include <unordered_set>
 #include <vector>
 
 #include "common.h"
@@ -34,7 +32,7 @@ int part_two_sensor(const std::vector<std::string> &inputs,
 {
   const char antiType = type == '1' ? '0' : '1';
   const size_t size{inputs.front().size()};
-  std::set<size_t> selected{};
+  std::unordered_set<size_t> selected{};
   for (size_t j{}; j < inputs.size(); j++) {
     selected.insert(j);
   }
@@ -96,12 +94,12 @@ int main(int argc, char **argv)
     inputs.emplace_back(string);
   } while (!input_file.eof());
 
-  const int one = testPart<std::string>(part_one, inputs, 693486, 1);
+  const int one = testPart<std::vector<std::string>, int>(part_one, inputs, 693486, 1);
   if (one != 0) {
     return one;
   }
 
-  const int two = testPart<std::string>(part_two, inputs, 3379326, 2);
+  const int two = testPart<std::vector<std::string>, int>(part_two, inputs, 3379326, 2);
   if (two != 0) {
     return two;
   }

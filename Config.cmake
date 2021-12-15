@@ -1,5 +1,5 @@
-# Use C++20
-set(CMAKE_CXX_STANDARD 20)
+# Use C++17
+set(CMAKE_CXX_STANDARD 17)
 
 # Build configuration
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")

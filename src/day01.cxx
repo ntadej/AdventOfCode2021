@@ -1,5 +1,3 @@
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 #include "common.h"
@@ -46,12 +44,12 @@ int main(int argc, char **argv)
     inputs.emplace_back(number);
   } while (!input_file.eof());
 
-  const int one = testPart<int>(part_one, inputs, 1466, 1);
+  const int one = testPart<std::vector<int>, int>(part_one, inputs, 1466, 1);
   if (one != 0) {
     return one;
   }
 
-  const int two = testPart<int>(part_two, inputs, 1491, 2);
+  const int two = testPart<std::vector<int>, int>(part_two, inputs, 1491, 2);
   if (two != 0) {
     return two;
   }

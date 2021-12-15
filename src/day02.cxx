@@ -1,5 +1,3 @@
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 #include "common.h"
@@ -62,12 +60,12 @@ int main(int argc, char **argv)
     inputs.emplace_back(string, number);
   } while (!input_file.eof());
 
-  const int one = testPart<std::pair<std::string, int>>(part_one, inputs, 2027977, 1);
+  const int one = testPart<std::vector<std::pair<std::string, int>>, int>(part_one, inputs, 2027977, 1);
   if (one != 0) {
     return one;
   }
 
-  const int two = testPart<std::pair<std::string, int>>(part_two, inputs, 1903644897, 2);
+  const int two = testPart<std::vector<std::pair<std::string, int>>, int>(part_two, inputs, 1903644897, 2);
   if (two != 0) {
     return two;
   }
