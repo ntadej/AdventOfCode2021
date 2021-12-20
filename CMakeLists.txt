@@ -32,6 +32,7 @@ setup_day(16)
 setup_day(17)
 setup_day(18)
 setup_day(19)
+setup_day(20)
 
 # Enable tests
 enable_testing()
